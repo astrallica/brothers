@@ -1,0 +1,31 @@
+{
+  "name": "brothers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astrallica/brothers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astrallica/brothers/issues"
+  },
+  "homepage": "https://github.com/astrallica/brothers#readme",
+  "dependencies": {
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "express-validator": "^6.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.1",
+    "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.9.1",
+    "request": "^2.88.0",
+    "swagger-ui-express": "^4.1.2"
+  }
+}
