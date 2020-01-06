@@ -1,15 +1,23 @@
 const mongoose = require("mongoose")
 const jwt = require('jsonwebtoken')
 const uniqueValidator = require("mongoose-unique-validator")
-const secret = 'sceret' // TODO: ask PG , does this constant being set to process.env.NODE_ENV === "production" ? process.env.SECRET : 'secret' mean environment variables are set somewhere on the server which acts as private key?
+const secret = 'sceret' 
 
 const UserSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  nickname: { type: String, required: true, unique: true }, 
-  level: { type: Number, default: 1 },
-  exp: { type: Number, default: 0 },
-  dia: { type: Number, default: 0 },
+  name: { type: String, required: true },
+  udid: { type: String, required: true },
+  token: { type: String },
+  profileUrl: {type: String, default: ""},
   gold: { type: Number, default: 0 },
+  dia: { type: Number, default: 0 },
+  coupon1: { type: Number, default: 0 },
+  coupon2: { type: Number, default: 0 },
+  coupon3: { type: Number, default: 0 },
+  coupon4: { type: Number, default: 0 },
+  arbeitNoti: { type: Boolean, default: false},
+  mailNoti: { type: Boolean, default: false},
+  coupon4: { type: Number, default: 0 },
+  lastLogin: { type: Date }
   isActivated: { type: Boolean, default: true }
 }, {timestamps: true})
 
