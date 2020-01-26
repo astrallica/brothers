@@ -1,6 +1,6 @@
 const router = require("express").Router()
 const User = require("../models/User")
-const Avartar = require("../models/Avartar")
+const Avatar = require("../models/Avatar")
 const Inventory = require("../models/Inventory")
 const auth = require("../middleware/auth")
 const ObjectId = require("mongoose").Types.ObjectId

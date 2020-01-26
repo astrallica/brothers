@@ -6,7 +6,7 @@ const ItemSchema = new mongoose.Schema({
   fp: { type: Number, default: 0 },
   fileName: { type: String, required: true },
   category: [ Number ],
-  left: { type: Number, default: "0" }
+  left: { type: Number, default: "0" },
   bottom: { type: Number, default: "0" }
 })
 

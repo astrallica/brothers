@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   arbeitNoti: { type: Boolean, default: false},
   mailNoti: { type: Boolean, default: false},
   coupon4: { type: Number, default: 0 },
-  lastLogin: { type: Date }
+  lastLogin: { type: Date },
   isActivated: { type: Boolean, default: true }
 }, {timestamps: true})
 

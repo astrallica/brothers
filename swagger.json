@@ -1,0 +1,610 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a common platform including users and transactions.",
+    "version": "1.0.0",
+    "title": "Funlab Dragon Quest API Server",
+    "termsOfService": "http://funlab.kr",
+    "contact": {
+      "email": "phil.seong@funlab.kr"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "funlab-dragonquest-api-254708.appspot.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "User",
+      "description": "Operations about admin user",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://funlab.kr"
+      }
+    },
+    {
+      "name": "Store",
+      "description": "Operations about store",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://funlab.kr"
+      }
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "SignUp user into game service",
+        "description": "",
+        "operationId": "addUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Admin object that needs to be added to the platform",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          },
+          "409": {
+            "description": "Currently existing ID"
+          },
+          "422": {
+            "description": "Invalid parameter"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Login with game user account",
+        "description": "",
+        "operationId": "userLogin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "ID/password to login as game user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed",
+            "schema": {
+              "$ref": "#/definitions/JWT"
+            }
+          },
+          "409": {
+            "description": "Currently existing ID"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Finish user session",
+        "description": "",
+        "operationId": "userLogout",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Succeed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/user/modify/{userId}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Modify user information",
+        "description": "",
+        "operationId": "modifyUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be modified",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserModify"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed"
+          },
+          "409": {
+            "description": "Currently existing ID"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/store/purchase/dia": {
+      "post": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "purchase dia",
+        "description": "",
+        "operationId": "purchaseDia",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Dia amount",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Dia"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Succeed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/store/purchase/item": {
+      "post": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "buy virtual money",
+        "description": "",
+        "operationId": "charge",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Deposit information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Succeed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/store/purchase/hero": {
+      "post": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "purchase a service product",
+        "description": "",
+        "operationId": "purchase",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Hero"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Succeed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/store/transaction": {
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "Get all purchase log of user",
+        "description": "",
+        "operationId": "getProducts",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "serviceId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Start date that need to be considered for filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "End date that need to be considered for filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "numPage",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number of list",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TransactionList"
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "user_auth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "zipcode": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UserLogin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserModify": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "zipcode": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UserId": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        }
+      }
+    },
+    "Dia": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "amount": {
+          "type": "number"
+        }
+      }
+    },
+    "Hero": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "heroId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        }
+      }
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "itemId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "purchaseId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "serviceId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "serviceName": {
+          "type": "string",
+          "example": "Dragon Quest"
+        },
+        "productId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "productName": {
+          "type": "string",
+          "example": "emerald sword"
+        },
+        "userId": {
+          "type": "string",
+          "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "price": {
+          "type": "number",
+          "example": 50000
+        },
+        "timestame": {
+          "type": "string",
+          "example": "yyyy-MM-dd hh:mm:ss"
+        }
+      }
+    },
+    "TransactionList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Transaction"
+      }
+    },
+    "JWT": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfdHlwZSI6Iuq0gOumrOyekCIsImFkZHJlc3MiOiLqsr3quLDrj4Qg6rOg7JaR7IucIiwiZ2VuZGVyIjoi64Ko7ISxIiwicGhvbmUiOiIwMTAxMjM0NDMyMSIsIm1lbW8iOm51bGwsImlkIjoiamhsZWUiLCJleHAiOjE1Njk1NzI0NDUsImVtYWlsIjoiamhsZWVAZnVubGFiLmtyIiwibWVtYmVyX3VpZCI6IjEifQ.BhSFvOKWB2UGWu30zRFXq6AFD-H64-qfvrLbZHItEKQ"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

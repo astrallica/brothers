@@ -20,7 +20,7 @@ const DecorationSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: User, required: true },
   Balloon: { type: mongoose.Schema.Types.ObjectId, ref: Balloon, required: true },
   balloonText: { type: String, defalut: "" },
-  sitckers: [ 
+  sitckers: [ ],
   hairId: { type: String, default: "0" },
   hairColor: { type: Number, default: 0 },
   wearing: [ String ],

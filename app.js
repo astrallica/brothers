@@ -24,6 +24,7 @@ mongoose.connect("mongodb+srv://phil:test123@cluster0-jze14.gcp.mongodb.net/test
 require("./models/User")
 
 app.use(indexRouter)
+app.use(swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 //app.use(swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 app.use(function(err,req,res,next){
