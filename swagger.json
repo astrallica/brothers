@@ -1,35 +1,129 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is a common platform including users and transactions.",
+    "description": "The Dressroom game API for client",
     "version": "1.0.0",
-    "title": "Funlab Dragon Quest API Server",
-    "termsOfService": "http://funlab.kr",
+    "title": "Dressroom API Server",
+    "termsOfService": "https://dressroom-brothers.appspot.com/",
     "contact": {
-      "email": "phil.seong@funlab.kr"
+      "email": "pigrabbit86@gmail.com"
     },
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "funlab-dragonquest-api-254708.appspot.com",
+  "host": "https://dressroom-brothers.appspot.com/",
   "basePath": "/",
   "tags": [
     {
       "name": "User",
-      "description": "Operations about admin user",
+      "description": "Operations about User",
       "externalDocs": {
         "description": "Find out more",
-        "url": "http://funlab.kr"
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },{
+      "name": "Avatar",
+      "description": "Operations about Avartar",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },{
+      "name": "Mail",
+      "description": "Operations about Mail",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
       }
     },
     {
       "name": "Store",
-      "description": "Operations about store",
+      "description": "Operations about Store",
       "externalDocs": {
         "description": "Find out more",
-        "url": "http://funlab.kr"
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Reward",
+      "description": "Operations about Reward",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Item",
+      "description": "Operations about Item",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Mission",
+      "description": "Operations about Mission",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Archive",
+      "description": "Operations about Store",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Arbeit",
+      "description": "Operations about Arbeit",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Decoration",
+      "description": "Operations about Decoration",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Rank",
+      "description": "Operations about Rank",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Notification",
+      "description": "Operations about Notification",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Event",
+      "description": "Operations about Event",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
+      }
+    },
+    {
+      "name": "Recycle",
+      "description": "Operations about Recycle",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://dressroom-brothers.appspot.com/"
       }
     }
   ],
@@ -37,14 +131,14 @@
     "https"
   ],
   "paths": {
-    "/user": {
+    "/user/join": {
       "post": {
         "tags": [
           "User"
         ],
-        "summary": "SignUp user into game service",
-        "description": "",
-        "operationId": "addUser",
+        "summary": "회원가입",
+        "description": "첫 로그인시 실행. 유져 기본데이터가 생성된다.",
+        "operationId": "userJoin",
         "consumes": [
           "application/json"
         ],
@@ -55,7 +149,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Admin object that needs to be added to the platform",
+            "description": "디바이스 udid 및 닉네임",
             "required": true,
             "schema": {
               "$ref": "#/definitions/User"
@@ -63,17 +157,17 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Succeed",
             "schema": {
               "$ref": "#/definitions/UserId"
             }
           },
-          "409": {
-            "description": "Currently existing ID"
+          "400": {
+            "description": "Bad Request"
           },
-          "422": {
-            "description": "Invalid parameter"
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -83,8 +177,8 @@
         "tags": [
           "User"
         ],
-        "summary": "Login with game user account",
-        "description": "",
+        "summary": "로그인",
+        "description": "로그인. 두번째 실행부터 자동으로 로그인.",
         "operationId": "userLogin",
         "consumes": [
           "application/json"
@@ -96,10 +190,10 @@
           {
             "in": "body",
             "name": "body",
-            "description": "ID/password to login as game user",
+            "description": "별도의 ID/PW를 요구하지 않으며, UDID를 읽어와 로그인",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserLogin"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -107,7 +201,7 @@
           "200": {
             "description": "Succeed",
             "schema": {
-              "$ref": "#/definitions/JWT"
+              "$ref": "#/definitions/UserId"
             }
           },
           "409": {
@@ -154,8 +248,90 @@
         ]
       }
     },
-    "/user/modify/{userId}": {
-      "put": {
+    "/user/account": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Finish user session",
+        "description": "",
+        "operationId": "userLogout",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Succeed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user information",
+        "description": "",
+        "operationId": "getUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be modified",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserModify"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed"
+          },
+          "409": {
+            "description": "Currently existing ID"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          }
+        },
+        "security": [
+          {
+            "user_auth": []
+          }
+        ]
+      }
+    },
+    "/user/modify": {
+      "post": {
         "tags": [
           "User"
         ],
@@ -450,27 +626,8 @@
     "User": {
       "type": "object",
       "properties": {
-        "nickname": {
+        "udid": {
           "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "zipcode": {
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -509,6 +666,15 @@
         "userId": {
           "type": "string",
           "example": "t5P4KQiKuYMGLDGkw6eZ"
+        },
+        "token": {
+          "type": "string",
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfdHlwZSI6Iuq0gOumrOyekCIsImFkZHJlc3MiOiLqsr3quLDrj4Qg6rOg7JaR7IucIiwiZ2VuZGVyIjoi64Ko7ISxIiwicGhvbmUiOiIwMTAxMjM0NDMyMSIsIm1lbW8iOm51bGwsImlkIjoiamhsZWUiLCJleHAiOjE1Njk1NzI0NDUsImVtYWlsIjoiamhsZWVAZnVubGFiLmtyIiwibWVtYmVyX3VpZCI6IjEifQ.BhSFvOKWB2UGWu30zRFXq6AFD-H64-qfvrLbZHItEKQ"
+        },
+        "attandance": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
         }
       }
     },
