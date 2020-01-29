@@ -1,0 +1,517 @@
+swagger: '2.0'
+info:
+  description: The Dressroom game API for client
+  version: 1.0.0
+  title: Dressroom API Server
+  termsOfService: 'https://dressroom-brothers.appspot.com/'
+  contact:
+    email: pigrabbit86@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'dressroom-brothers.appspot.com'
+basePath: /
+tags:
+  - name: User
+    description: Operations about User
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Avatar
+    description: Operations about Avartar
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Mail
+    description: Operations about Mail
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Store
+    description: Operations about Store
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Reward
+    description: Operations about Reward
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Item
+    description: Operations about Item
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Mission
+    description: Operations about Mission
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Archive
+    description: Operations about Store
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Arbeit
+    description: Operations about Arbeit
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Decoration
+    description: Operations about Decoration
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Rank
+    description: Operations about Rank
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Notification
+    description: Operations about Notification
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Event
+    description: Operations about Event
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Recycle
+    description: Operations about Recycle
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+schemes:
+  - https
+paths:
+  /user/join:
+    post:
+      tags:
+        - User
+      summary: 회원가입
+      description: 첫 로그인시 실행. 유져 기본데이터가 생성된다.
+      operationId: userJoin
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: 디바이스 udid 및 닉네임
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Succeed
+          schema:
+            $ref: '#/definitions/UserId'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: 로그인
+      description: 로그인. 두번째 실행부터 자동으로 로그인.
+      operationId: userLogin
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: '별도의 ID/PW를 요구하지 않으며, UDID를 읽어와 로그인'
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            $ref: '#/definitions/UserId'
+        '409':
+          description: Currently existing ID
+        '422':
+          description: Invalid parameters
+        '500':
+          description: Internal server error
+  /user/logout:
+    post:
+      tags:
+        - User
+      summary: Finish user session
+      description: ''
+      operationId: userLogout
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: Succeed
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+      security:
+        - user_auth: []
+  /user/account:
+    post:
+      tags:
+        - User
+      summary: Finish user session
+      description: ''
+      operationId: userAccount
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: '별도의 ID/PW를 요구하지 않으며, UDID를 읽어와 로그인'
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '204':
+          description: Succeed
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+      security:
+        - user_auth: []
+  /user:
+    get:
+      tags:
+        - User
+      summary: Get user information
+      description: ''
+      operationId: getUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: User object to be modified
+          required: true
+          schema:
+            $ref: '#/definitions/UserModify'
+      responses:
+        '200':
+          description: Succeed
+        '409':
+          description: Currently existing ID
+        '422':
+          description: Invalid parameters
+      security:
+        - user_auth: []
+  /user/modify:
+    post:
+      tags:
+        - User
+      summary: Modify user information
+      description: ''
+      operationId: modifyUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: User object to be modified
+          required: true
+          schema:
+            $ref: '#/definitions/UserModify'
+      responses:
+        '200':
+          description: Succeed
+        '409':
+          description: Currently existing ID
+        '422':
+          description: Invalid parameters
+      security:
+        - user_auth: []
+  /store/purchase/dia:
+    post:
+      tags:
+        - Store
+      summary: purchase dia
+      description: ''
+      operationId: purchaseDia
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Dia amount
+          required: true
+          schema:
+            $ref: '#/definitions/Dia'
+      responses:
+        '204':
+          description: Succeed
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid parameters
+        '500':
+          description: Internal server error
+      security:
+        - user_auth: []
+  /store/purchase/item:
+    post:
+      tags:
+        - Store
+      summary: buy virtual money
+      description: ''
+      operationId: charge
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Deposit information
+          required: true
+          schema:
+            $ref: '#/definitions/Item'
+      responses:
+        '204':
+          description: Succeed
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid parameters
+        '500':
+          description: Internal server error
+      security:
+        - user_auth: []
+  /store/purchase/hero:
+    post:
+      tags:
+        - Store
+      summary: purchase a service product
+      description: ''
+      operationId: purchase
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Product information
+          required: true
+          schema:
+            $ref: '#/definitions/Hero'
+      responses:
+        '204':
+          description: Succeed
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid parameters
+        '500':
+          description: Internal server error
+      security:
+        - user_auth: []
+  /store/transaction:
+    get:
+      tags:
+        - Store
+      summary: Get all purchase log of user
+      description: ''
+      operationId: getProducts
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          type: string
+        - name: serviceId
+          in: path
+          description: ''
+          required: true
+          type: string
+        - name: startDate
+          in: query
+          description: Start date that need to be considered for filter
+          required: false
+          type: string
+        - name: endDate
+          in: query
+          description: End date that need to be considered for filter
+          required: false
+          type: string
+        - name: numPage
+          in: query
+          description: Number of items per page
+          required: false
+          type: number
+        - name: page
+          in: query
+          description: Page number of list
+          required: false
+          type: number
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionList'
+        '404':
+          description: Not found
+        '422':
+          description: Invalid parameters
+        '500':
+          description: Internal server error
+      security:
+        - user_auth: []
+securityDefinitions:
+  user_auth:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  User:
+    type: object
+    properties:
+      udid:
+        type: string
+  UserLogin:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  UserModify:
+    type: object
+    properties:
+      name:
+        type: string
+      phone:
+        type: string
+      address:
+        type: string
+      zipcode:
+        type: integer
+        format: int32
+  UserId:
+    type: object
+    properties:
+      userId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      token:
+        type: string
+        example: >-
+          eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfdHlwZSI6Iuq0gOumrOyekCIsImFkZHJlc3MiOiLqsr3quLDrj4Qg6rOg7JaR7IucIiwiZ2VuZGVyIjoi64Ko7ISxIiwicGhvbmUiOiIwMTAxMjM0NDMyMSIsIm1lbW8iOm51bGwsImlkIjoiamhsZWUiLCJleHAiOjE1Njk1NzI0NDUsImVtYWlsIjoiamhsZWVAZnVubGFiLmtyIiwibWVtYmVyX3VpZCI6IjEifQ.BhSFvOKWB2UGWu30zRFXq6AFD-H64-qfvrLbZHItEKQ
+      attandance:
+        type: integer
+        format: int32
+        example: 1
+  Dia:
+    type: object
+    properties:
+      userId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      amount:
+        type: number
+  Hero:
+    type: object
+    properties:
+      userId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      heroId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+  Item:
+    type: object
+    properties:
+      userId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      itemId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+  Transaction:
+    type: object
+    properties:
+      purchaseId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      serviceId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      serviceName:
+        type: string
+        example: Dragon Quest
+      productId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      productName:
+        type: string
+        example: emerald sword
+      userId:
+        type: string
+        example: t5P4KQiKuYMGLDGkw6eZ
+      price:
+        type: number
+        example: 50000
+      timestame:
+        type: string
+        example: 'yyyy-MM-dd hh:mm:ss'
+  TransactionList:
+    type: array
+    items:
+      $ref: '#/definitions/Transaction'
+  JWT:
+    type: object
+    properties:
+      token:
+        type: string
+        example: >-
+          eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJfdHlwZSI6Iuq0gOumrOyekCIsImFkZHJlc3MiOiLqsr3quLDrj4Qg6rOg7JaR7IucIiwiZ2VuZGVyIjoi64Ko7ISxIiwicGhvbmUiOiIwMTAxMjM0NDMyMSIsIm1lbW8iOm51bGwsImlkIjoiamhsZWUiLCJleHAiOjE1Njk1NzI0NDUsImVtYWlsIjoiamhsZWVAZnVubGFiLmtyIiwibWVtYmVyX3VpZCI6IjEifQ.BhSFvOKWB2UGWu30zRFXq6AFD-H64-qfvrLbZHItEKQ
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'

@@ -4,7 +4,8 @@ const path = require("path")
 const logger = require("morgan")
 const indexRouter = require("./routes/index")
 const swaggerUi = require("swagger-ui-express")
-const swaggerDoc = require("./swagger.json")
+const yamljs = require("yamljs")
+const swaggerDoc = yamljs.load("./swagger.yaml")
 
 const app = express()
 
