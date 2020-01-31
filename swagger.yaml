@@ -98,11 +98,11 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body
+          name: join
           description: 디바이스 udid 및 닉네임
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/UserJoin'
       responses:
         '201':
           description: Succeed
@@ -125,11 +125,11 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body
+          name: login
           description: '별도의 ID/PW를 요구하지 않으며, UDID를 읽어와 로그인'
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/UserLogin'
       responses:
         '200':
           description: Succeed
@@ -141,26 +141,6 @@ paths:
           description: Invalid parameters
         '500':
           description: Internal server error
-  /user/logout:
-    post:
-      tags:
-        - User
-      summary: Finish user session
-      description: ''
-      operationId: userLogout
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      responses:
-        '204':
-          description: Succeed
-        '401':
-          description: Unauthorized
-        '500':
-          description: Internal server error
-      security:
-        - user_auth: []
   /user/account:
     post:
       tags:
@@ -174,16 +154,18 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body
-          description: '별도의 ID/PW를 요구하지 않으며, UDID를 읽어와 로그인'
+          name: account
+          description: '계정 연동'
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/UserAccount'
       responses:
         '204':
           description: Succeed
-        '401':
-          description: Unauthorized
+        '404':
+          description: User Not Found
+        '422':
+          description: Invalid Parameters
         '500':
           description: Internal server error
       security:
@@ -199,21 +181,11 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: userId
-          in: path
-          description: ID of user to return
-          required: true
-          type: string
-        - in: body
-          name: body
-          description: User object to be modified
-          required: true
-          schema:
-            $ref: '#/definitions/UserModify'
       responses:
         '200':
           description: Succeed
+          schema:
+            $ref: '#/definitions/User'
         '409':
           description: Currently existing ID
         '422':
@@ -232,13 +204,8 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: userId
-          in: path
-          description: ID of user to return
-          required: true
-          type: string
         - in: body
-          name: body
+          name: user
           description: User object to be modified
           required: true
           schema:
@@ -246,10 +213,224 @@ paths:
       responses:
         '200':
           description: Succeed
-        '409':
-          description: Currently existing ID
-        '422':
-          description: Invalid parameters
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad Request
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /avatar:
+    get:
+      tags:
+        - Avatar
+      summary: Get avatars information
+      description: ''
+      operationId: getAvatars
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Avatar'
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /avatar/create:
+    post:
+      tags:
+        - Avatar
+      summary: create new avatar
+      description: ''
+      operationId: createAvatar
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Avatar'
+        '400':
+          description: Bad Request
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /avatar/{avatarId}:
+    get:
+      tags:
+        - Avatar
+      summary: get avatar infomations
+      description: ''
+      operationId: getAvatar
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: avatarId
+          in: path
+          description: ID of avatar
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            $ref: '#/definitions/Avatar'
+        '403':
+          description: Forbidden
+        '404':
+          description: Avatar Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /avatar/save/{avatarId}:
+    post:
+      tags:
+        - Avatar
+      summary: save avatar infomations
+      description: ''
+      operationId: saveAvatar
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: avatarId
+          in: path
+          description: ID of avatar
+          required: true
+          type: string
+        - name: save
+          in: body
+          description: avatar infomation
+          required: true
+          schema:
+            $ref: '#/definitions/AvatarSave'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Avatar Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /item:
+    get:
+      tags:
+        - Item
+      summary: get all item list
+      description: ''
+      operationId: getItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/Item"
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /item/inventory:
+    get:
+      tags:
+        - Item
+      summary: get user inventory
+      description: ''
+      operationId: getInventory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/Inventory"
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /item/hair:
+    get:
+      tags:
+        - Item
+      summary: get all hair list
+      description: ''
+      operationId: getHair
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/Hair"
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /item/buy/{itemId}:
+    post:
+      tags:
+        - Item
+      summary: buy item
+      description: ''
+      operationId: buyItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: itemId
+          in: path
+          description: ID of item
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/Inventory"
+        '500':
+          description: Internal Server Error
       security:
         - user_auth: []
   /store/purchase/dia:
@@ -410,30 +591,41 @@ securityDefinitions:
     name: Authorization
     in: header
 definitions:
-  User:
+  UserJoin:
     type: object
     properties:
       udid:
         type: string
+      name:
+        type: string
   UserLogin:
     type: object
     properties:
+      udid:
+        type: string
+  UserAccount:
+    type: object
+    properties:
+      accountType:
+        type: integer
       email:
         type: string
-      password:
+      accountKey1: 
+        type: string
+      accountKey2:
         type: string
   UserModify:
     type: object
     properties:
       name:
         type: string
-      phone:
+      arbeitNoti:
+        type: boolean
+      mailNoti:
+        type: boolean
+      profileImage:
         type: string
-      address:
-        type: string
-      zipcode:
-        type: integer
-        format: int32
+        format: binary
   UserId:
     type: object
     properties:
@@ -448,6 +640,70 @@ definitions:
         type: integer
         format: int32
         example: 1
+  User:
+    type: object
+    properties:
+      name:
+        type: string
+      udid:
+        type: string
+      token:
+        type: string
+      profileUrl: 
+        type: string
+      gold:
+        type: integer
+      dia:
+        type: integer
+      coupon1:
+        type: integer
+      coupon2:
+        type: integer
+      coupon3:
+        type: integer
+      coupon4:
+        type: integer
+      arbeitNoti:
+        type: boolean
+      mailNoti:
+        type: boolean
+      attandance:
+        type: integer
+      lastLogin:
+        type: string
+        format: date-time
+  Avatar:
+    type: object
+    properties:
+      userId:
+        type: string
+      avatarId:
+        type: string
+      name:
+        type: string
+      hairId:
+        type: string
+      hairColor:
+        type: integer
+      wearing: 
+        type: array
+        items: 
+          type: string
+      fp:
+        type: integer
+  AvatarSave:
+    type: object
+    properties:
+      name:
+        type: string
+      hairId:
+        type: string
+      hairColor:
+        type: integer
+      wearing:
+        type: array
+        items:
+          type: string
   Dia:
     type: object
     properties:
@@ -468,12 +724,34 @@ definitions:
   Item:
     type: object
     properties:
-      userId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
       itemId:
         type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
+      costType:
+        type: integer
+      fp:
+        type: integer
+      fileName:
+        type: string
+      category:
+        type: array
+        items:
+          type: integer
+  Hair:
+    type: object
+    properties:
+      hairId:
+        type: string
+      fileName:
+        type: string
+  Inventory:
+    type: object
+    properties:
+      userId:
+        type: string
+      itemId:
+        type: string
+      isWearing:
+        type: boolean
   Transaction:
     type: object
     properties:
