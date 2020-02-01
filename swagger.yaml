@@ -22,6 +22,31 @@ tags:
     externalDocs:
       description: Find out more
       url: 'https://dressroom-brothers.appspot.com/'
+  - name: Item
+    description: Operations about Item
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Arbeit
+    description: Operations about Arbeit
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Reward
+    description: Operations about Reward
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Decoration
+    description: Operations about Decoration
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
+  - name: Recycle
+    description: Operations about Recycle
+    externalDocs:
+      description: Find out more
+      url: 'https://dressroom-brothers.appspot.com/'
   - name: Mail
     description: Operations about Mail
     externalDocs:
@@ -32,16 +57,6 @@ tags:
     externalDocs:
       description: Find out more
       url: 'https://dressroom-brothers.appspot.com/'
-  - name: Reward
-    description: Operations about Reward
-    externalDocs:
-      description: Find out more
-      url: 'https://dressroom-brothers.appspot.com/'
-  - name: Item
-    description: Operations about Item
-    externalDocs:
-      description: Find out more
-      url: 'https://dressroom-brothers.appspot.com/'
   - name: Mission
     description: Operations about Mission
     externalDocs:
@@ -49,16 +64,6 @@ tags:
       url: 'https://dressroom-brothers.appspot.com/'
   - name: Archive
     description: Operations about Store
-    externalDocs:
-      description: Find out more
-      url: 'https://dressroom-brothers.appspot.com/'
-  - name: Arbeit
-    description: Operations about Arbeit
-    externalDocs:
-      description: Find out more
-      url: 'https://dressroom-brothers.appspot.com/'
-  - name: Decoration
-    description: Operations about Decoration
     externalDocs:
       description: Find out more
       url: 'https://dressroom-brothers.appspot.com/'
@@ -74,11 +79,6 @@ tags:
       url: 'https://dressroom-brothers.appspot.com/'
   - name: Event
     description: Operations about Event
-    externalDocs:
-      description: Find out more
-      url: 'https://dressroom-brothers.appspot.com/'
-  - name: Recycle
-    description: Operations about Recycle
     externalDocs:
       description: Find out more
       url: 'https://dressroom-brothers.appspot.com/'
@@ -320,7 +320,7 @@ paths:
           description: ID of avatar
           required: true
           type: string
-        - name: save
+        - name: avatar
           in: body
           description: avatar infomation
           required: true
@@ -406,183 +406,321 @@ paths:
       security:
         - user_auth: []
   /item/buy/{itemId}:
-    post:
+    get:
       tags:
         - Item
-      summary: buy item
+      summary: buy Item
       description: ''
       operationId: buyItem
       consumes:
         - application/json
+        - application/xml
       produces:
         - application/json
+        - application/xml
       parameters:
         - name: itemId
           in: path
-          description: ID of item
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Succeed
-          schema:
-            type: array
-            items: 
-              $ref: "#/definitions/Inventory"
-        '500':
-          description: Internal Server Error
-      security:
-        - user_auth: []
-  /store/purchase/dia:
-    post:
-      tags:
-        - Store
-      summary: purchase dia
-      description: ''
-      operationId: purchaseDia
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Dia amount
-          required: true
-          schema:
-            $ref: '#/definitions/Dia'
-      responses:
-        '204':
-          description: Succeed
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid parameters
-        '500':
-          description: Internal server error
-      security:
-        - user_auth: []
-  /store/purchase/item:
-    post:
-      tags:
-        - Store
-      summary: buy virtual money
-      description: ''
-      operationId: charge
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Deposit information
-          required: true
-          schema:
-            $ref: '#/definitions/Item'
-      responses:
-        '204':
-          description: Succeed
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid parameters
-        '500':
-          description: Internal server error
-      security:
-        - user_auth: []
-  /store/purchase/hero:
-    post:
-      tags:
-        - Store
-      summary: purchase a service product
-      description: ''
-      operationId: purchase
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Product information
-          required: true
-          schema:
-            $ref: '#/definitions/Hero'
-      responses:
-        '204':
-          description: Succeed
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid parameters
-        '500':
-          description: Internal server error
-      security:
-        - user_auth: []
-  /store/transaction:
-    get:
-      tags:
-        - Store
-      summary: Get all purchase log of user
-      description: ''
-      operationId: getProducts
-      consumes:
-        - application/json
-        - application/xml
-      produces:
-        - application/json
-        - application/xml
-      parameters:
-        - name: userId
-          in: path
           description: ''
           required: true
           type: string
-        - name: serviceId
-          in: path
-          description: ''
-          required: true
-          type: string
-        - name: startDate
-          in: query
-          description: Start date that need to be considered for filter
-          required: false
-          type: string
-        - name: endDate
-          in: query
-          description: End date that need to be considered for filter
-          required: false
-          type: string
-        - name: numPage
-          in: query
-          description: Number of items per page
-          required: false
-          type: number
-        - name: page
-          in: query
-          description: Page number of list
-          required: false
-          type: number
       responses:
         '200':
           description: Succeed
           schema:
             type: array
             items:
-              $ref: '#/definitions/TransactionList'
+              $ref: '#/definitions/Inventory'
         '404':
           description: Not found
         '422':
           description: Invalid parameters
         '500':
           description: Internal server error
+      security:
+        - user_auth: []
+  /arbeit:
+    get:
+      tags:
+        - Arbeit
+      summary: get arbeit informations of user
+      description: ''
+      operationId: getArbeit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/Arbeit"
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /arbeit/start/{arbeitCode}:
+    post:
+      tags:
+        - Arbeit
+      summary: get arbeit informations of user
+      description: ''
+      operationId: startArbeit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: arbeitCode
+          in: path
+          description: ''
+          required: true
+          type: integer
+        - name: avatarId
+          in: query
+          description: ''
+          required: true
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Arbeit Code Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /arbeit/shorten/{arbeitCode}:
+    post:
+      tags:
+        - Arbeit
+      summary: get arbeit informations of user
+      description: ''
+      operationId: shortenArveit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: arbeitCode
+          in: path
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Arbeit Code Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /arbeit/bonus/{arbeitCode}:
+    post:
+      tags:
+        - Arbeit
+      summary: get arbeit informations of user
+      description: ''
+      operationId: bonusArbeit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: arbeitCode
+          in: path
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Arbeit Code Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /reward/arbeit:
+    post:
+      tags:
+        - Reward
+      summary: get arbeit informations of user
+      description: ''
+      operationId: rewardArbeit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: reward
+          in: body
+          description: ''
+          schema:
+            $ref: "#/definitions/Reward"
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Arbeit Code Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /decoration:
+    get:
+      tags:
+        - Decoration
+      summary: user decoration list
+      description: ''
+      operationId: getDecorations
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Decoration'
+        '400':
+          description: Bad Request
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /decoration/ballon:
+    get:
+      tags:
+        - Decoration
+      summary: all balloon list
+      description: ''
+      operationId: getBalloon
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Balloon'
+        '400':
+          description: Bad Request
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /decoration/sticker:
+    get:
+      tags:
+        - Decoration
+      summary: all sticker list
+      description: ''
+      operationId: getSticker
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Sticker'
+        '400':
+          description: Bad Request
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /decoration/save:
+    post:
+      tags:
+        - Decoration
+      summary: save decoration
+      description: ''
+      operationId: saveDecoration
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: decoration
+          in: body
+          description: avatar infomation
+          required: true
+          schema:
+            $ref: '#/definitions/Decoration'
+      responses:
+        '204':
+          description: Succeed
+        '403':
+          description: Forbidden
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - user_auth: []
+  /recycle:
+    post:
+      tags:
+        - Recycle
+      summary: recycle items
+      description: ''
+      operationId: recycle
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: inventoryIds
+          in: body
+          description: list of inventory item  to recycle
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Succeed
+          schema:
+            type: object
+            properties:
+              itemId:
+                type: string
+        '403':
+          description: Forbidden
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
       security:
         - user_auth: []
 securityDefinitions:
@@ -704,23 +842,6 @@ definitions:
         type: array
         items:
           type: string
-  Dia:
-    type: object
-    properties:
-      userId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
-      amount:
-        type: number
-  Hero:
-    type: object
-    properties:
-      userId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
-      heroId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
   Item:
     type: object
     properties:
@@ -752,37 +873,87 @@ definitions:
         type: string
       isWearing:
         type: boolean
-  Transaction:
+  Arbeit:
     type: object
     properties:
-      purchaseId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
-      serviceId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
-      serviceName:
-        type: string
-        example: Dragon Quest
-      productId:
-        type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
-      productName:
-        type: string
-        example: emerald sword
       userId:
         type: string
-        example: t5P4KQiKuYMGLDGkw6eZ
-      price:
-        type: number
-        example: 50000
-      timestame:
+      avatarId:
         type: string
-        example: 'yyyy-MM-dd hh:mm:ss'
-  TransactionList:
-    type: array
-    items:
-      $ref: '#/definitions/Transaction'
+      arbeitCode:
+        type: integer
+      startTime:
+        type: string
+        format: date-time
+      shorten:
+        type: boolean
+      bonus:
+        type: boolean
+      rewarded:
+        type: boolean
+  Reward:
+    type: object
+    properties:
+      rewardType:
+        type: integer
+      rewardCode:
+        type: integer
+  Decoration:
+    properties:
+      userId: 
+        type: string
+      avatarId: 
+        type: string
+      balloon:
+        type: object
+        properties:
+          balloonId:
+            type: string
+          balloonText:
+            type: string
+          positionX:
+            type: integer
+          positionY:
+            type: integer
+          scaleX:
+            type: integer
+          scaleY:
+            type: integer
+      stickers:
+        type: array
+        items:
+          $ref: "#/definitions/StickerDeco"
+      hairId:
+        type: string
+      hairColor:
+        type: integer
+      wearing:
+        type: array
+        items: 
+          type: string
+  StickerDeco:
+    type: object
+    properties:
+      stickerId: 
+        type: string   
+      positionX:
+        type: integer
+      positionY:
+        type: integer
+  Sticker:
+    type: object
+    properties:
+      stickerId:
+        type: string
+      fileName:
+        type: string
+  Balloon:
+    type: object
+    properties:
+      balloonId:
+        type: string
+      fileName:
+        type: string
   JWT:
     type: object
     properties:
