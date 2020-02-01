@@ -25,16 +25,6 @@ const checkAuthHeader = function(req,res,next) {
   else { next() }
 }
 
-router.post("/login", function(req, res, next) {
-  const { udid, name } = req.body
-  let user = new User()
-
-  user.name = name
-  user.udid = udid
-  user.token = ''
-
-})
-
 router.post("/", function(req, res, next) {
   const { email, password, name, nickname, phone, address, zipcode } = req.body
   let user = new User()
